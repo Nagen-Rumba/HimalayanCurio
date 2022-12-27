@@ -51,7 +51,7 @@ const ProductDetails = ({ product, products }) => {
           </div>
           <h4>Details: </h4>
           <p>{details}</p>
-          <p className="price">₹{price}</p>
+          <p className="price">${price}</p>
           <div className="quantity">
             <h3>Quantity:</h3>
             <p className="quantity-desc">
@@ -111,7 +111,7 @@ export const getStaticProps = async ({ params: { slug }}) => {
   const products = await client.fetch(productsQuery);
 
   console.log(product);
-  
+
   return {
     props: { products, product }
   }
