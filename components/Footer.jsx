@@ -6,7 +6,7 @@ const Footer = () => {
     <div className="footer-container">
       <p>Himalayan Curio House</p>
       <p className="icons">
-        <AiFillInstagram />
+        <a href="https://www.instagram.com/raho_0l/"><AiFillInstagram /></a>
         <AiOutlineTwitter />
       </p>
     </div>
