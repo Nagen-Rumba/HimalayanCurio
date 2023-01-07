@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { AiOutlineMinus, AiOutlinePlus, AiOutlineLeft, AiOutlineShopping } from 'react-icons/ai';
 import { TiDeleteOutline } from 'react-icons/ti';
 import toast from 'react-hot-toast';
-//import GooglePayButton from '@google-pay/button-react';
+import GooglePayButton from '@google-pay/button-react';
 import { useStateContext } from '../context/StateContext';
 import { urlFor } from '../lib/client';
 import getStripe from '../lib/getStripe';
@@ -103,6 +103,55 @@ const Cart = () => {
               <button type="button" className="btn" onClick={handleCheckout}>
                 Pay with Stripe
               </button>
+              <br></br>
+              <br/>
+              <GooglePayButton
+  environment="TEST"
+  paymentRequest={{
+    apiVersion: 2,
+    apiVersionMinor: 0,
+    allowedPaymentMethods: [
+      {
+        type: 'CARD',
+        parameters: {
+          allowedAuthMethods: ['PAN_ONLY', 'CRYPTOGRAM_3DS'],
+          allowedCardNetworks: ['MASTERCARD', 'VISA'],
+        },
+        tokenizationSpecification: {
+          type: 'PAYMENT_GATEWAY',
+          parameters: {
+            gateway: 'example',
+            gatewayMerchantId: 'exampleGatewayMerchantId',
+          },
+        },
+      },
+    ],
+    merchantInfo: {
+      merchantId: '12345678901234567890',
+      merchantName: 'Demo Merchant',
+    },
+    transactionInfo: {
+      totalPriceStatus: 'FINAL',
+      totalPriceLabel: 'Total',
+      totalPrice: '1',
+      currencyCode: 'USD',
+      countryCode: 'US',
+    },
+    shippingAddressRequired: true,
+    callbackIntents: ['PAYMENT_AUTHORIZATION'],
+  }}
+  onLoadPaymentData={paymentRequest => {
+    console.log('Success', paymentRequest);
+  }}
+  onPaymentAuthorized={paymentData => {
+    console.log('Payment Authorised Success', paymentData)
+    return {transactionState: 'SUCCESS'}
+  }
+  }
+  existingPaymentMethodRequired='false'
+  buttonColor='black'
+  buttonType='Buy'
+/>
             </div>
           </div>
         )}
